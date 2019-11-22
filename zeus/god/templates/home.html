@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Zeus Management {% endblock %}
+
+{% block content %}
+
+<header class="header" id="header">
+		<div class="container">
+			<figure class="logo animated fadeInDown">
+				<a href="{% url 'home' %}"><img src="{% static 'img/logo.svg' %}" alt=""></a>
+			</figure>
+			<h1 class="animated fadeInDown">Zeus Management</h1>
+			<ul class="we-create animated fadeInUp">
+                <li>Manage Mettings With Ease</li>
+                <br>
+                <br>
+				<a href="#"><button class="btn btn-success">Host the meeting</button></a>
+			</ul>
+		</div>
+</header>
+
+{% endblock %}
