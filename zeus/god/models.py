@@ -1,11 +1,12 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 # model for host detail
 class HostDetails(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    Phone = PhoneNumberField()
+    phone = PhoneNumberField()
 
 
 # model for client detail
