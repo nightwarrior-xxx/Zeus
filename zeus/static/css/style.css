@@ -51,6 +51,68 @@ body {
     padding: 10px;
 }
 
-.contact {
-    padding-top: 100%;
+
+.body {
+	background-color: #121212;
+}
+
+.flex-container {
+	width: 100vw;
+	margin-top: 100px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+.input-details {
+	border: none;
+	border-bottom: solid rgb(143, 143, 143) 1px;
+	margin-bottom: 20px;
+	height: 40px;
+	width: 350px;
+	background: none;
+	color: rgba(245, 227, 194, 0.945);
+}
+.content-container {
+	width: 500px;
+	height: 350px;
+}
+
+.form-container {
+	width: 500px;
+	height: 350px;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 30px;
+	background-color: #1f1f1f;
+}
+
+
+.form-container h1{
+	color: white;
+	font-size: 40px;
+	font-weight: 600;
+	font-family: sans-serif;
+}
+
+.subtitle {
+	color: rgba(180, 180, 180, 0.7);
+  	font-size: 15px;
+}
+
+.submit-btn {
+	background-color: #38d39f;;
+	border-radius: 10px;
+	border: none;
+	overflow: hidden;
+	color: white;
+	width: 80px;
+	height: 40px;
+}
+
+.submit-btn:hover{
+	box-shadow: 2px 2px 2px #55acee;
 }

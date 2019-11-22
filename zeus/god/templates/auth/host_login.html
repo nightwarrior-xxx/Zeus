@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %} Host {% endblock %}
+
+{% block content %}
+
+    <div class="flex-container">
+        <div class="content-container">
+            
+
+            <div class="form-container">
+                <h1> Lets get started </h1>
+                <span class="subtitle">Name</span>
+                {{form.name|add_class:'input-details'}}<br>
+                <span class="subtitle">Email</span>
+                {{form.email|add_class:'input-details'}}<br>
+                <span class="subtitle">Phone</span>
+                {{form.phone|add_class:'input-details'}}<br>
+                <button type="submit" class="submit-btn">Start</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

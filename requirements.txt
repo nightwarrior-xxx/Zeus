@@ -4,3 +4,4 @@ Pillow
 autopep8
 django-phonenumber-field
 phonenumbers
+django-widget-tweaks
