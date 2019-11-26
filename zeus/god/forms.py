@@ -1,42 +1,41 @@
 from django import forms
+from .models import Host
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-class HostLogin(forms.Form):
-
-    username = forms.CharField(required=True, widget=forms.TextInput(
-        attrs={"class": "input-details", "placeholder": "Username"}))
-    password = forms.CharField(required=True, widget=forms.PasswordInput(
-        attrs={"class": "input-details", "placeholder": "Password"}))
-
-
-class HostSignup(UserCreationForm):
-    first_name = forms.CharField(required=True, widget=forms.TextInput())
-    last_name = forms.CharField(required=False, widget=forms.TextInput())
-    email = forms.EmailField(required=True)
-    phone = PhoneNumberField(required=True, region='IN')
-    username = forms.CharField(required=True, max_length=250)
-    password1 = forms.CharField(required=True, widget=forms.PasswordInput())
-    password2 = forms.CharField(required=True, widget=forms.PasswordInput())
+class HostSignUp(UserCreationForm):
+    email = forms.EmailField()
+    phone = PhoneNumberField()
+    address = forms.CharField()
+    password1 = forms.CharField(widget = forms.PasswordInput())
+    password2 = forms.CharField(widget = forms.PasswordInput())
 
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username','email', 'phone', 'password1', 'password2')
+        fields = ['username', 'email', 'phone', 'password1', 'password2', 'address']
 
+    
 
-    def save(self, commit=True):
-        user = super(HostSignup, self).save(commit=False)
-        user.first_name=self.cleaned_data['first_name']
-        user.last_name=self.cleaned_data['last_name']
-        user.email=self.cleaned_data['email']
-        user.profile.phone=self.cleaned_data['phone']
-        user.username=self.cleaned_data['username']
-       
-        if commit:
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        user = User.objects.filter(email=email)
+        if user.exists():
+            return forms.ValidationError('Email already taken')
+        return email
 
-            user.save()
-        
-        return user
-
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        user = Host.objects.filter(phone=phone)
+        if user.exists():
+            return forms.ValidationError('Phone number alredy exists')
+        return phone
+    
+    def clean(self):
+        data = self.cleaned_data
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if password1!=password2:
+            return forms.ValidationError('Password not match')
+        return data
