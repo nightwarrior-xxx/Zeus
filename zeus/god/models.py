@@ -1,18 +1,27 @@
+import os
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-# model for host detail
-class HostDetails(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
+class Profiles(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='profile')
+    is_active = models.BooleanField(default=False)
     phone = PhoneNumberField()
 
+    def __str__(self):
+        return self.user.username
 
-# model for client detail
-class ClientDetails(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = PhoneNumberField()
-    checkInTime = models.TimeField(auto_now_add=True)
-    checkOutTime = models.TimeField()
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, *args, **kwargs):
+    if created:
+        Profiles.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, *args, **kwargs):
+    instance.profile.save()

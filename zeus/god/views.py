@@ -1,24 +1,66 @@
-from django.shortcuts import render
-from .forms import HostForm
+from django.shortcuts import render, redirect, reverse
+from .forms import HostSignup, HostLogin
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
+
 
 # function based view for home
 def home(request):
-    return render(request, 'home.html',{})
+    return render(request, 'home.html', {})
 
 
 # function based view for handling host login
-def host_login(request):
+def hostSignup(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        return redirect(reverse('home'))
+
     if request.method == "POST":
-        form = HostForm(request.POST)
+        form = HostSignup(request.POST)
+        print(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save() 
+            messages.info(request, 'Thanks for signing up')
+            return redirect(reverse('hostLogin'))
         else:
-            return redirect(reverse('host:host_login'))
+            messages.error(request, 'Fill all the fields correctly')
+            return redirect(reverse('hostSignup'))
 
     else:
-        form = HostForm(None)
+        form = HostSignup()
 
     context = {
         "form": form
     }
-    return render(request, 'auth/host_login.html', context)
+
+    return render(request, "auth/hostSignup.html", context)
+
+
+
+# function based view for handling client login
+def hostLogin(request):
+    if request.method == "POST":
+        form = HostLogin(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password1 = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password1)
+            print(user)
+            if user is not None:
+                login(request, user)
+                print('Logged in')
+            else:
+                return redirect(reverse('hostLogin'))
+        else:
+            messages.error(request, 'Invalid details')
+            return redirect(reverse('hostLogin'))
+    else:
+        form = HostLogin(None)
+
+    context = {
+        "form": form
+    }
+    return render(request, 'auth/hostLogin.html', context)

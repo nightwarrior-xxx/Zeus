@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}SignUp{% endblock %}
+{% load widget_tweaks %}
+{% block content %}
+<!-- SignUpForm -->
+
+
+<div class="flex-container ">
+    <div class="content-container">
+            <div class="wrong">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{message}}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+
+        <div class="form-container"> 
+            <form action="{% url 'hostSignup' %}" method="POST">
+                    {% csrf_token %}
+                    <h1>Signup</h1><br><br>
+                    {% for field in form %}
+                        <p>
+                        <span class="subtitle">{{field.label_tag}}</span><br>
+                        {{field|add_class:'input-details'}}
+                        {% if field.help_text %}
+                            <small style="display:none;">{{filed.help_text}}</small>
+                        {% endif %}
+                        
+                        {% for error in field.errors %}
+                            <p style="color:red;">{{error|escape}}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    <br><button type="submit" class="submit-btn" name="signupform" value="signupform">Sign-In</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

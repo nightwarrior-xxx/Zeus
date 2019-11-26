@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+PHONENUMBER_DEFAULT_REGION = "IN"
+
 ROOT_URLCONF = 'zeus.urls'
 
 TEMPLATES = [
