@@ -1,44 +1,47 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Checkout{% endblock %}
-{% block content %}
-{% load widget_tweaks %}
 
-<body class="login-body">
-    <div class="flex-container">
-        <div class="content-conatiner">
-                <div class="wrong">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>{{message}}</strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            <div class="form-container">
-                <form action="" method="POST">
+{% block title %}Guest{% endblock %}
+{% load widget_tweaks %}
+{% block content %}
+<!-- SignUpForm -->
+
+
+<div class="flex-container ">
+    <div class="content-container">
+            <div class="wrong">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>{{message}}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        <div class="form-container"> 
+            <form action="{% url 'god:checkout' %}" method="POST">
                     {% csrf_token %}
-                    <h1>We Hope it was a good meeting !! Please Checkout</h1><br><br>
-                        {% for field in form %}
-                            <p>
-                            <span class="subtitle">{{field.label_tag}}</span><br>
-                            {{field|add_class:'input-details'}}
-                            {% if field.help_text %}
-                                <small style="display:none;">{{filed.help_text}}</small>
-                            {% endif %}
-                            
-                            {% for error in field.errors %}
-                                <p style="color:red;">{{error|escape}}</p>
-                            {% endfor %}
+                    <h3 style="color:white;">We hope it was a good meeting </h3><br><br>
+                    {% for field in form %}
+                        <p>
+                        <span class="subtitle">{{field.label_tag}}</span><br>
+                        {{field|add_class:'input-details'}}
+                        {% if field.help_text %}
+                            <small style="display:none;">{{filed.help_text}}</small>
+                        {% endif %}
+                        
+                        {% for error in field.errors %}
+                            <p style="color:red;">{{error|escape}}</p>
                         {% endfor %}
-                        <br><button type="submit" class="submit-btn" name="clientCheckout" value="clientCheckout">Checkout</button>
-                </form>
-            <div>
+                    {% endfor %}
+                    <br><button type="submit" class="submit-btn" name="checkout" value="checkout">Exit</button>
+            </form>
         </div>
-    <div>
-</body>
-{% endblock %}% 
+    </div>
+</div>
+
+{% endblock %}

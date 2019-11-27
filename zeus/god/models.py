@@ -20,6 +20,7 @@ class Client(models.Model):
     checkInTime = models.DateTimeField(auto_now_add=True)
     checkOutTime = models.DateTimeField(auto_now=True)
     email = models.EmailField()
+    inMeeting = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
