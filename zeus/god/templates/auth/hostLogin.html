@@ -2,6 +2,7 @@
 
 {% block title %}Login{% endblock %}
 {% block content %}
+{% load widget_tweaks %}
 
 <body class="login-body">
     <div class="flex-container">
@@ -22,11 +23,19 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     <h1>Login</h1><br><br>
-                    <span class="subtitle">Username</span><br>
-                    <input type="text" name="username" value="" class="input-details" ><br>
-                    <span class="subtitle">Password</span><br>
-                    <input type="password" name="password" value="" class="input-details"><br>
-                    <button type="submit" class="submit-btn">Login</button>
+                        {% for field in form %}
+                            <p>
+                            <span class="subtitle">{{field.label_tag}}</span><br>
+                            {{field|add_class:'input-details'}}
+                            {% if field.help_text %}
+                                <small style="display:none;">{{filed.help_text}}</small>
+                            {% endif %}
+                            
+                            {% for error in field.errors %}
+                                <p style="color:red;">{{error|escape}}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        <br><button type="submit" class="submit-btn" name="signupform" value="signupform">Sign-In</button>
                 </form>
             <div>
         </div>

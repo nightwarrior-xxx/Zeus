@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from .forms import HostSignUp
+from .forms import HostSignUp, HostLogin
 from .models import Host
 from django.contrib.auth.models import User
 
@@ -37,3 +37,33 @@ def hostSignup(request):
     }
 
     return render(request, 'auth/hostSignup.html', context)
+
+
+def hostLogin(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('home'))
+
+    if request.method == "POST":
+        form = HostLogin(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                print('Logged In')
+                return redirect(reverse('home'))
+            else:
+                messages.error(request, 'Invalid username and password')
+                return redirect(reverse('hostLogin'))
+        else:
+            messages.error(request, 'Please fill the form correctly')
+            return redirect(reverse('hostLogin'))
+    else:
+        form = HostLogin(None)
+    
+    context = {
+        "form": form
+    }
+
+    return render(request, "auth/hostLogin.html", context)
