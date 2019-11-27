@@ -1,5 +1,5 @@
 from django import forms
-from .models import Host
+from .models import Host, Client
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -43,3 +43,27 @@ class HostSignUp(UserCreationForm):
         if password1 != password2:
             return forms.ValidationError('Password not match')
         return data
+
+
+
+class ClientRegistration(forms.ModelForm):
+    name = forms.CharField()
+    email = forms.EmailField()
+    phone = PhoneNumberField()
+
+    class Meta:
+        model = Client
+        fields = ('name', 'phone', 'email')
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        user = Client.objects.filter(email=email)
+        if user.exists():
+            return forms.ValidationError('Email already taken')
+        return email
+
+
+class ClientCheckout(forms.Form):
+    name = forms.CharField()
+    email = forms.EmailField()
+    phone = PhoneNumberField()
