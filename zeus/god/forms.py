@@ -63,7 +63,7 @@ class ClientRegistration(forms.ModelForm):
         return email
 
 
-class ClientCheckout(forms.Form):
+class Checkout(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()
     phone = PhoneNumberField()

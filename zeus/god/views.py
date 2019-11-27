@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from .forms import HostSignUp, HostLogin, ClientRegistration, Client
+from .forms import HostSignUp, HostLogin, ClientRegistration, Checkout
 from .models import Host, Client
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -71,12 +71,12 @@ def hostLogin(request):
     return render(request, "auth/hostLogin.html", context)
 
 
-@login_required(redirect_field_name='hostLogin')
+@login_required(login_url='hostLogin')
 def hostCloseMeeting(request):
     logout(request)
     return redirect(reverse('home'))
 
-
+@login_required(login_url='hostLogin')
 def clientRegister(request):
     if request.method == "POST":
         form = ClientRegistration(request.POST)
@@ -88,6 +88,7 @@ def clientRegister(request):
             user = Client(name=name, phone=phone, email=email)
             print(name, phone, email, user)
             user.checkInTime = timezone.now()
+            user.inMeeting = True
             user.save()
             if user is not None:
                 messages.success(request, 'Thanks')
@@ -95,7 +96,7 @@ def clientRegister(request):
                 return redirect(reverse('god:client'))
         
         else:
-            messages.error(request, 'Please try again')
+            messages.error(request, 'Please try again. Values entered are wrong')
             return redirect(reverse('god:client'))
 
     else:
@@ -107,27 +108,28 @@ def clientRegister(request):
 
     return render(request, 'auth/clientRegistration.html', context)
 
-
+@login_required
 def ClientCheckout(request):
     if request.method == "POST":
-        form = ClientCheckout(request.POST)
+        form = Checkout(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
 
             email = form.cleaned_data.get('email')
             phone = form.cleaned_data.get('phone')
-            user = Client.objects.filter(name=name, email=email, phone=phone)[0]
+            user = Client.objects.get(email=email,phone=phone)
             if user is not None:
                 messages.success(request,'Thanks for attending the meeting')
                 user.CheckOutTime = timezone.now()
+                user.inMeeting = False
                 user.save()
-                return redirect(reverse('god:Client'))
+                return redirect(reverse('god:client'))
             else:
                 messages.error(request, 'Please enter details correctly')
                 return redirect(reverse('god:ClientCheckout'))
 
     else:
-        form = ClientCheckout(None)
+        form = Checkout(None)
 
     context = {
         "form": form
