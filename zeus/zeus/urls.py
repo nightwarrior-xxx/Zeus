@@ -4,7 +4,8 @@ from django.urls import path, include
 from god.views import (
     home,
     hostSignup,
-    hostLogin
+    hostLogin,
+    hostCloseMeeting
 )
 
 urlpatterns = [
@@ -12,4 +13,6 @@ urlpatterns = [
     path('', home, name='home'),
     path('hostLogin/', hostLogin, name='hostLogin'),
     path('hostSignup/', hostSignup, name='hostSignup'),
+    path('hostCloseMeeting/', hostCloseMeeting, name='hostCloseMeeting'),
+    path('god/', include('god.urls', namespace='god'))
 ]

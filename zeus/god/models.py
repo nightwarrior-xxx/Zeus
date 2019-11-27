@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.db.models.signals import post_save
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -11,3 +12,14 @@ class Host(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=250)
+    phone = PhoneNumberField()
+    checkInTime = models.DateTimeField(auto_now_add=True)
+    checkOutTime = models.DateTimeField(auto_now=True)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name

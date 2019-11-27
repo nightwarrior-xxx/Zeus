@@ -14,7 +14,7 @@
       {% if request.user.is_authenticated %}
 
        <li class="nav-item">
-        <a class="nav-link" href="#">Close the meeting</a>
+        <a class="nav-link" href="{% url 'hostCloseMeeting' %}">Close the meeting</a>
       </li>
 
       {% endif %}

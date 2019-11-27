@@ -1,9 +1,9 @@
 {% extends 'base/base.html' %}
 
 
-{% block title %}SignUp{% endblock %}
+{% block title %}Guest{% endblock %}
 {% load widget_tweaks %}
-{% block content %}2
+{% block content %}
 <!-- SignUpForm -->
 
 
@@ -25,14 +25,15 @@
         <div class="container">
             <div class="row">
                 <div class="col" style="text-align: right;">
-                    Host already registered? Go and <a href="{% url 'hostLogin' %}">Login</a>
+                    Already Checked-in ?<a href="{% url 'god:checkout' %}">Checkout</a>
                 </div>
             </div>
         </div>
+
         <div class="form-container"> 
-            <form action="{% url 'hostSignup' %}" method="POST">
+            <form action="{% url 'god:client' %}" method="POST">
                     {% csrf_token %}
-                    <h1>Signup</h1><br><br>
+                    <h1>We Welcome You</h1><br><br>
                     {% for field in form %}
                         <p>
                         <span class="subtitle">{{field.label_tag}}</span><br>
@@ -45,7 +46,7 @@
                             <p style="color:red;">{{error|escape}}</p>
                         {% endfor %}
                     {% endfor %}
-                    <br><button type="submit" class="submit-btn" name="signupform" value="signupform">Sign-In</button>
+                    <br><button type="submit" class="submit-btn" name="checkin" value="checkin">Check-in</button>
             </form>
         </div>
     </div>
