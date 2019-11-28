@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/Zeus_logo.png" height="400px">
+<img src="assets/Zeus_logo.png" height="350px">
 </p>
 
 ![Maintained](https://img.shields.io/maintenance/yes/2019?style=for-the-badge&logo=github)  ![Made with Python](https://img.shields.io/badge/Made%20with-Python-blueviolet?style=for-the-badge&logo=python)  ![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%99%A5-red?style=for-the-badge&logo=open-source-initiative)  ![Built with Love](https://img.shields.io/badge/Built%20With-%E2%99%A5-critical?style=for-the-badge&logo=ko-fi)  [![Follow Me](https://img.shields.io/twitter/follow/nightwarrior_xx?color=blue&label=Follow%20%40nightwarrior_xx&logo=twitter&style=for-the-badge)](https://twitter.com/intent/follow?screen_name=nightwarrior_xx)  [![Telegram](https://img.shields.io/badge/Telegram-Chat-informational?style=for-the-badge&logo=telegram)](https://telegram.me/nightwarrior_xxx)
@@ -11,8 +11,7 @@
 - [Usage](#zap-usage)
   - [Commands](#package-commands)
 - [Development](#wrench-development)
-  - [Pre-Requisites](#notebook-pre-requisites)
-  - [Developmen Environment](#nut_and_bolt-development-environment)
+  - [Pre-Requisites and Development Environment](#notebook-pre-requisites)
   - [File Structure](#file_folder-file-structure) 
 - [Community](#cherry_blossom-community)
   - [Contribution](#fire-contribution)
@@ -23,18 +22,40 @@
 - [License](#lock-license)
 
 ##  :beginner: About
+Zeus is a entry level management software, build basically for meetings.
 
 ## :zap: Usage
 
 ###  :package: Commands
+To start the projects you need to setup the development environment. Then run
+```BASH
+python3 manage.py runserver
+```
 
 ##  :wrench: Development
 
-### :notebook: Pre-Requisites
+### :notebook: Pre-Requisites and Development Enviroment
+Install a virtual environment
+```BASH
+python3 -m venv <name of virtual env>
+```
 
-###  :nut_and_bolt: Development Environment
+Activate the virtual environment
+```BASH
+source <source folder>/<name of virtual env>/bin/activate
+```
 
-###  :file_folder: File Structure
+Install requirements
+```BASH
+pip install -r requirements.txt
+```
+
+Move into the source folder i.e zeus and run
+```BASH
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
 
 ## :cherry_blossom: Community
 
