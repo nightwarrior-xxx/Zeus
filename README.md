@@ -13,6 +13,7 @@
 - [Development](#wrench-development)
   - [Pre-Requisites and Development Environment](#notebook-pre-requisites)
   - [File Structure](#file_folder-file-structure) 
+- [Insights](#beginner-insights)
 - [Community](#cherry_blossom-community)
   - [Contribution](#fire-contribution)
   - [Branches](#cactus-branches)
@@ -52,10 +53,13 @@ pip install -r requirements.txt
 
 Move into the source folder i.e zeus and run
 ```BASH
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
 ```
+
+##  :beginner: Insights
+At the back end, once the user enters the information in the form, the backendb stores all of the information with time stamp of the entry. It also triggers an email and an SMS to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This should trigger an email to the guest which contains details of host(partial) and guest.
 
 ## :cherry_blossom: Community
 
@@ -98,6 +102,21 @@ Make sure that there is only one extra line after the file ends and remember the
 
 ##  :camera: Gallery
 Pictures of project.
+
+- Font Page
+![Font Page](./assets/zeusFrontPage.png)
+
+- Host Registration Page
+![Host Register](./assets/zeusHostRegister.png)
+
+- Host Login Page
+![Host Login](./assets/zeusHostLogin.png)
+
+- Guest Check In 
+![Guest](./assets/zeusClientRegister.png)
+
+- Guest Checkout 
+![Guest checkout](./assets/zeusClientCheckout.png)
 
 ## :star2: Credit/Acknowledgment
 Credits goes to me and other contributors
