@@ -57,6 +57,10 @@ MIDDLEWARE = [
 PHONENUMBER_DEFAULT_REGION = "IN"
 
 
+# Configuration of SMS Backend
+SENDSMS_BACKEND = 'sendsms.backends.console.SmsBackend'
+
+
 # Configuring GMAIL SMTP Server
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -7,7 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.conf import settings
+from sendsms import api
 
 
 def home(request):
@@ -94,6 +96,31 @@ def clientRegister(request):
             user.inMeeting = True
             user.save()
             if user is not None:
+
+                # Sending Email to Host
+                subject = "Guest Registration"
+                message = "Hey {host}, {guest} just checkin-in for the meeting. {Guest}'s email  is {email} and phone number is {phone}".format(
+                    host=request.user.username,
+                    guest=user.name,
+                    email=user.email,
+                    phone=user.phone
+                )
+                senderEmail = seetings.EMAIL_HOST_USER
+                receipentList = []
+                receipentList.append(user.email)
+                try:
+                    send_mail(subject, message, senderEmail, receipentList)
+                    print('Email')
+                except:
+                    print('Email Sent failed')
+
+                senderPhone = os.environ.get('senderPhone')
+                receipentPhone = []
+                receipentPhone.append(user.phone)
+                api.send_sms(body=message, from_phone=senderPhone,
+                api.send_sms(body=message, from_phone=senderPhone,
+                             to=receipentPhone)
+
                 messages.success(request, 'Thanks')
                 print(user, user.checkInTime, user.checkOutTime)
                 return redirect(reverse('god:client'))
@@ -125,9 +152,29 @@ def ClientCheckout(request):
             user = Client.objects.get(email=email, phone=phone)
             if user is not None:
                 messages.success(request, 'Thanks for attending the meeting')
-                user.CheckOutTime = timezone.now()
+                user.checkOutTime = timezone.now()
                 user.inMeeting = False
                 user.save()
+
+                # Sending Email to Guest
+                subject = 'Thanks for attending meeting'
+                msg = render_to_string("snippets/email.html", {
+                    "guestName": user.name,
+                    "guestEmail": user.email,
+                    "guestPhone": user.phone,
+                    "host": request.user.username,
+                    "guestCheckInTime": user.checkInTime,
+                    "guestCheckOutTime": user.checkOutTime
+                })
+                email_from = settings.EMAIL_HOST_USER
+                rl = []
+                rl.append(user.email)
+                try:
+                    send_mail(subject, msg, email_from, rl)
+                    print('Checkout email send')
+                else:
+                    print('Checkout email sent to fail')
+
                 return redirect(reverse('god:client'))
             else:
                 messages.error(request, 'Please enter details correctly')
