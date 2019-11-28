@@ -1,5 +1,5 @@
 from django import forms
-from .models import Host, Client
+from .models import Host, Clients
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -52,15 +52,9 @@ class ClientRegistration(forms.ModelForm):
     phone = PhoneNumberField()
 
     class Meta:
-        model = Client
-        fields = ('name', 'phone', 'email')
-    
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        user = Client.objects.filter(email=email)
-        if user.exists():
-            return forms.ValidationError('Email already taken')
-        return email
+        model = Clients
+        fields = ['name', 'phone', 'email']
+
 
 
 class Checkout(forms.Form):
