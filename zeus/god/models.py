@@ -14,13 +14,13 @@ class Host(models.Model):
         return self.user.username
 
 
-class Client(models.Model):
+class Clients(models.Model):
     name = models.CharField(max_length=250)
     phone = PhoneNumberField()
     checkInTime = models.DateTimeField(auto_now_add=True)
     checkOutTime = models.DateTimeField(auto_now=True)
     email = models.EmailField()
-    inMeeting = models.BooleanField(default=False)
+    inMeeting = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

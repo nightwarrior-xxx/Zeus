@@ -2,10 +2,18 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from .forms import HostSignUp, HostLogin, ClientRegistration, Checkout
-from .models import Host, Client
+from .models import Host, Clients
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
+from sendsms import api
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from twilio.rest import Client
 
 
 def home(request):
@@ -27,8 +35,9 @@ def hostSignup(request):
                                 phone=phone, address=address)
             extendedUser.save()
             print('Registration done')
-            messages.success(request, 'Registration success')
-            return redirect(reverse('hostSignup'))
+            if user is not None:
+                messages.success(request, 'Registration success')
+                return redirect(reverse('hostSignup'))
         else:
             messages.error(request, 'Please register again')
     else:
@@ -76,6 +85,7 @@ def hostCloseMeeting(request):
     logout(request)
     return redirect(reverse('home'))
 
+
 @login_required(login_url='hostLogin')
 def clientRegister(request):
     if request.method == "POST":
@@ -85,18 +95,73 @@ def clientRegister(request):
             name = form.cleaned_data.get('name')
             phone = form.cleaned_data.get('phone')
             email = form.cleaned_data.get('email')
-            user = Client(name=name, phone=phone, email=email)
+            user=None
+            altUser = Clients.objects.filter(email=email, phone=phone)
+            print(altUser)
+            if altUser.exists():
+                user=altUser
+                user.inMeeting = True
+                user.checkInTime=timezone.now()
+                user.checkOutTime=timezone.now()
+            else:
+                user = Clients(name=name, phone=phone, email=email)
+                user.checkInTime = timezone.now()
+                user.checkOutTime = timezone.now()
+                user.save()
             print(name, phone, email, user)
-            user.checkInTime = timezone.now()
-            user.inMeeting = True
-            user.save()
+            print(user.checkInTime, user.inMeeting)
             if user is not None:
-                messages.success(request, 'Thanks')
+
+                #Sending Email to Host
+                m = "Hey {host}, {guest} just checkin-in for the meeting. {guest}'s email  is {email} and phone number is {phoneNum}".format(
+                    host=request.user.username,
+                    guest=user.name,
+                    email=user.email,
+                    phoneNum=phone
+                )
+                message = Mail(
+                    from_email=os.environ.get('DEFAULT_FROM_EMAIL'),
+                    to_emails=request.user.email,
+                    subject='Check=In meeting done',
+                    html_content=m)
+
+                sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                response = sg.send(message)
+                print(response.status_code, response.body, response.headers)
+                print('Email send')
+
+                #SMS send to host
+                smsContext = {
+                    "host": request.user.username,
+                    "guestName": user.name,
+                    "guestEmail": user.email,
+                    "guestPhone": phone
+                }
+                client = Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+                smsBody = render_to_string("snippets/sms.html", smsContext)
+                smsPhone = "+{}{}".format(request.user.profile.phone.country_code,
+                                          request.user.profile.phone.national_number)
+                print(smsBody, smsPhone)
+                try:
+                    smsMessage = client.messages \
+                        .create(
+                            body=smsBody,
+                            from_=os.environ.get('TWILIO_PHONE_NUMBER'),
+                            to=smsPhone
+                        )
+                    print(smsMessage.sid)
+                    print('SMS send')
+
+                except:
+                    print('SMS send failed')
+
+                messages.success(request, 'Thanks for Checking-In')
                 print(user, user.checkInTime, user.checkOutTime)
                 return redirect(reverse('god:client'))
-        
+
         else:
-            messages.error(request, 'Please try again. Values entered are wrong')
+            messages.error(
+                request, 'Please try again')
             return redirect(reverse('god:client'))
 
     else:
@@ -108,6 +173,7 @@ def clientRegister(request):
 
     return render(request, 'auth/clientRegistration.html', context)
 
+
 @login_required
 def ClientCheckout(request):
     if request.method == "POST":
@@ -117,12 +183,31 @@ def ClientCheckout(request):
 
             email = form.cleaned_data.get('email')
             phone = form.cleaned_data.get('phone')
-            user = Client.objects.get(email=email,phone=phone)
+            user = Clients.objects.get(email=email, phone=phone)
             if user is not None:
-                messages.success(request,'Thanks for attending the meeting')
-                user.CheckOutTime = timezone.now()
+                messages.success(request, 'Thanks for attending the meeting')
+                user.checkOutTime = timezone.now()
                 user.inMeeting = False
                 user.save()
+                context = {
+                    "guestName": user.name,
+                    "guestEmail": user.email,
+                    "guestPhone": phone,
+                    "address": request.user.profile.address,
+                    "guestCheckInTime": user.checkInTime,
+                    "guestCheckOutTime": user.checkOutTime
+                }
+                # Sending Email to Guest
+                message = Mail(
+                    from_email=os.environ.get('DEFAULT_FROM_EMAIL'),
+                    to_emails=email,
+                    subject='Thanks for attending meeting',
+                    html_content=render_to_string('snippets/email.html', context))
+
+                sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                response = sg.send(message)
+                print(response.status_code, response.body, response.headers)
+
                 return redirect(reverse('god:client'))
             else:
                 messages.error(request, 'Please enter details correctly')

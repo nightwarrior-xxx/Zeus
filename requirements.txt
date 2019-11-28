@@ -5,3 +5,5 @@ autopep8
 django-phonenumber-field
 phonenumbers
 django-widget-tweaks
+django-sendgrid-v5
+twilio
