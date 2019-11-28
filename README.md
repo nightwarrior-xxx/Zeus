@@ -59,7 +59,7 @@ python3 manage.py runserver
 ```
 
 ##  :beginner: Insights
-At the back end, once the user enters the information in the form, the backendb stores all of the information with time stamp of the entry. It also triggers an email and an SMS to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This should trigger an email to the guest which contains details of host(partial) and guest.
+At the back end, once the user enters the information in the form, the backendb(**postgress**) stores all of the information with time stamp of the entry. It also triggers an email and an SMS to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This should trigger an email to the guest which contains details of host(partial) and guest.
 
 ## :cherry_blossom: Community
 
