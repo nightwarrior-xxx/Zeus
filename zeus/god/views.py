@@ -6,6 +6,8 @@ from .models import Host, Client
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def home(request):
@@ -76,6 +78,7 @@ def hostCloseMeeting(request):
     logout(request)
     return redirect(reverse('home'))
 
+
 @login_required(login_url='hostLogin')
 def clientRegister(request):
     if request.method == "POST":
@@ -94,9 +97,10 @@ def clientRegister(request):
                 messages.success(request, 'Thanks')
                 print(user, user.checkInTime, user.checkOutTime)
                 return redirect(reverse('god:client'))
-        
+
         else:
-            messages.error(request, 'Please try again. Values entered are wrong')
+            messages.error(
+                request, 'Please try again. Values entered are wrong')
             return redirect(reverse('god:client'))
 
     else:
@@ -108,6 +112,7 @@ def clientRegister(request):
 
     return render(request, 'auth/clientRegistration.html', context)
 
+
 @login_required
 def ClientCheckout(request):
     if request.method == "POST":
@@ -117,9 +122,9 @@ def ClientCheckout(request):
 
             email = form.cleaned_data.get('email')
             phone = form.cleaned_data.get('phone')
-            user = Client.objects.get(email=email,phone=phone)
+            user = Client.objects.get(email=email, phone=phone)
             if user is not None:
-                messages.success(request,'Thanks for attending the meeting')
+                messages.success(request, 'Thanks for attending the meeting')
                 user.CheckOutTime = timezone.now()
                 user.inMeeting = False
                 user.save()
