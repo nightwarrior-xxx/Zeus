@@ -104,19 +104,19 @@ Make sure that there is only one extra line after the file ends and remember the
 Pictures of project.
 
 - Font Page
-![Font Page](./assets/zeusFrontPage.png)
+![Font Page](assets/zeusFrontPage.png)
 
 - Host Registration Page
-![Host Register](./assets/zeusHostRegister.png)
+![Host Register](assets/zeusHostRegister.png)
 
 - Host Login Page
-![Host Login](./assets/zeusHostLogin.png)
+![Host Login](assets/zeusHostLogin.png)
 
 - Guest Check In 
-![Guest](./assets/zeusClientRegister.png)
+![Guest](assets/zeusClientRegister.png)
 
 - Guest Checkout 
-![Guest checkout](./assets/zeusClientCheckout.png)
+![Guest checkout](assets/zeusClientCheckout.png)
 
 ## :star2: Credit/Acknowledgment
 Credits goes to me and other contributors
