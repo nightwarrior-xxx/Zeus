@@ -11,7 +11,6 @@
   - [Commands](#package-commands)
 - [Development](#wrench-development)
   - [Pre-Requisites and Development Environment](#notebook-pre-requisites)
-  - [File Structure](#file_folder-file-structure)
 - [Community](#cherry_blossom-community)
   - [Contribution](#fire-contribution)
   - [Branches](#cactus-branches)
