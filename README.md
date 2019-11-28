@@ -1,9 +1,8 @@
 <p align="center">
-<img src="assets/Zeus_logo.png" height="400px">
+<img src="assets/Zeus_logo.png" height="350px">
 </p>
 
-![Maintained](https://img.shields.io/maintenance/yes/2019?style=for-the-badge&logo=github)  ![Made with Python](https://img.shields.io/badge/Made%20with-Python-blueviolet?style=for-the-badge&logo=python)  ![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%99%A5-red?style=for-the-badge&logo=open-source-initiative)  ![Built with Love](https://img.shields.io/badge/Built%20With-%E2%99%A5-critical?style=for-the-badge&logo=ko-fi)  [![Follow Me](https://img.shields.io/twitter/follow/nightwarrior_xx?color=blue&label=Follow%20%40nightwarrior_xx&logo=twitter&style=for-the-badge)](https://twitter.com/intent/follow?screen_name=nightwarrior_xx)  [![Telegram](https://img.shields.io/badge/Telegram-Chat-informational?style=for-the-badge&logo=telegram)](https://telegram.me/nightwarrior_xxx)
-
+![Maintained](https://img.shields.io/maintenance/yes/2019?style=for-the-badge&logo=github) ![Made with Python](https://img.shields.io/badge/Made%20with-Python-blueviolet?style=for-the-badge&logo=python) ![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%99%A5-red?style=for-the-badge&logo=open-source-initiative) ![Built with Love](https://img.shields.io/badge/Built%20With-%E2%99%A5-critical?style=for-the-badge&logo=ko-fi) [![Follow Me](https://img.shields.io/twitter/follow/nightwarrior_xx?color=blue&label=Follow%20%40nightwarrior_xx&logo=twitter&style=for-the-badge)](https://twitter.com/intent/follow?screen_name=nightwarrior_xx) [![Telegram](https://img.shields.io/badge/Telegram-Chat-informational?style=for-the-badge&logo=telegram)](https://telegram.me/nightwarrior_xxx)
 
 ## :ledger: Index
 
@@ -11,50 +10,79 @@
 - [Usage](#zap-usage)
   - [Commands](#package-commands)
 - [Development](#wrench-development)
-  - [Pre-Requisites](#notebook-pre-requisites)
-  - [Developmen Environment](#nut_and_bolt-development-environment)
-  - [File Structure](#file_folder-file-structure) 
+  - [Pre-Requisites and Development Environment](#notebook-pre-requisites)
+  - [File Structure](#file_folder-file-structure)
 - [Community](#cherry_blossom-community)
   - [Contribution](#fire-contribution)
   - [Branches](#cactus-branches)
-  - [Guideline](#exclamation-guideline)  
+  - [Guideline](#exclamation-guideline)
+- [Insights](#beginner-insights)
 - [Gallery](#camera-gallery)
 - [Credit/Acknowledgment](#star2-creditacknowledgment)
 - [License](#lock-license)
 
-##  :beginner: About
+## :beginner: About
+
+Zeus is a entry level management software, build basically for meetings.
 
 ## :zap: Usage
 
-###  :package: Commands
+### :package: Commands
 
-##  :wrench: Development
+To start the projects you need to setup the development environment. Then run
 
-### :notebook: Pre-Requisites
+```BASH
+python3 manage.py runserver
+```
 
-###  :nut_and_bolt: Development Environment
+## :wrench: Development
 
-###  :file_folder: File Structure
+### :notebook: Pre-Requisites and Development Enviroment
+
+Install a virtual environment
+
+```BASH
+python3 -m venv <name of virtual env>
+```
+
+Activate the virtual environment
+
+```BASH
+source <source folder>/<name of virtual env>/bin/activate
+```
+
+Install requirements
+
+```BASH
+pip install -r requirements.txt
+```
+
+Move into the source folder i.e zeus and run
+
+```BASH
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
+```
 
 ## :cherry_blossom: Community
 
+### :fire: Contribution
 
- ###  :fire: Contribution
+Your contributions are always welcome and appreciated. Following are the things you can do to contribute to this project.
 
- Your contributions are always welcome and appreciated. Following are the things you can do to contribute to this project.
+1.  **Report a bug** <br>
+    If you think you have encountered a bug, and I should know about it, feel free to report by making an issue and I will take care of it.
 
- 1. **Report a bug** <br>
- If you think you have encountered a bug, and I should know about it, feel free to report by making an issue and I will take care of it.
+2.  **Request a feature** <br>
+    You can also request for a feature. Just make an issue, and if it will viable, it will be picked for development.
 
- 2. **Request a feature** <br>
- You can also request for a feature. Just make an issue, and if it will viable, it will be picked for development.  
+3.  **Create a pull request** <br>
+    It can't get better then this, your pull request will be appreciated.
 
- 3. **Create a pull request** <br>
- It can't get better then this, your pull request will be appreciated.
+### :cactus: Branches
 
- ### :cactus: Branches
-
- I use an agile continuous integration methodology, so the version is frequently updated and development is really fast.
+I use an agile continuous integration methodology, so the version is frequently updated and development is really fast.
 
 1. **`dev`** is the development branch.
 
@@ -73,13 +101,36 @@
 After this, changes will be merged.
 
 ### :exclamation: Guideline
+
 Make sure that there is only one extra line after the file ends and remember the indentation.
 
-##  :camera: Gallery
+## :beginner: Insights
+
+At the back end, once the user enters the information in the form, the backendb(**postgresql**) stores all of the information with time stamp of the entry. It also triggers an email(with help of **SendGrid**) and an SMS(with help of **Twilio**) to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This should trigger an email to the guest which contains details of host(name) and guest.
+
+## :camera: Gallery
+
 Pictures of project.
 
+- Font Page
+  ![Font Page](assets/zeusFrontPage.png)
+
+- Host Registration Page
+  ![Host Register](assets/zeusHostRegister.png)
+
+- Host Login Page
+  ![Host Login](assets/zeusHostLogin.png)
+
+- Guest Check In
+  ![Guest](assets/zeusClientRegister.png)
+
+- Guest Checkout
+  ![Guest checkout](assets/zeusClientCheckout.png)
+
 ## :star2: Credit/Acknowledgment
+
 Credits goes to me and other contributors
 
-##  :lock: License
+## :lock: License
+
 [LICENSE](/LICENSE)

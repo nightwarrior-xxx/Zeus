@@ -21,6 +21,15 @@
                     {% endfor %}
                 {% endif %}
             </div>
+        <div class="container">
+            <div class="row">
+                <div class="col" style="text-align: left;">
+                    <a href="{% url 'god:client' %}"> Go Back and Check In</a>
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="form-container"> 
             <form action="{% url 'god:checkout' %}" method="POST">
