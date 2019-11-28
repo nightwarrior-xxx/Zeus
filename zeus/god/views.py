@@ -31,8 +31,9 @@ def hostSignup(request):
                                 phone=phone, address=address)
             extendedUser.save()
             print('Registration done')
-            messages.success(request, 'Registration success')
-            return redirect(reverse('hostSignup'))
+            if user is not None:
+                messages.success(request, 'Registration success')
+                return redirect(reverse('hostSignup'))
         else:
             messages.error(request, 'Please register again')
     else:
@@ -118,7 +119,6 @@ def clientRegister(request):
                 receipentPhone = []
                 receipentPhone.append(user.phone)
                 api.send_sms(body=message, from_phone=senderPhone,
-                api.send_sms(body=message, from_phone=senderPhone,
                              to=receipentPhone)
 
                 messages.success(request, 'Thanks')
@@ -172,7 +172,7 @@ def ClientCheckout(request):
                 try:
                     send_mail(subject, msg, email_from, rl)
                     print('Checkout email send')
-                else:
+                except:
                     print('Checkout email sent to fail')
 
                 return redirect(reverse('god:client'))
