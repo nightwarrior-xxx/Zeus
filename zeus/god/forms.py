@@ -34,8 +34,8 @@ class HostSignUp(UserCreationForm):
         phone = self.cleaned_data.get('phone')
         user = Host.objects.filter(phone=phone)
         if user.exists():
-            raise forms.ValidationError('Phone number alredy exists')
-        return  email
+            raise forms.ValidationError('Phone number already exists')
+        return phone
 
     def clean(self):
         data = self.cleaned_data

@@ -1,25 +1,31 @@
-from django.shortcuts import render, redirect, reverse
-from django.contrib.auth import login, authenticate, logout
-from django.contrib import messages
-from .forms import HostSignUp, HostLogin, ClientRegistration, Checkout
-from .models import Host, Clients
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
-from sendsms import api
+
 import os
+
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from twilio.rest import Client
 
+from sendsms import api
+from django.conf import settings
+from .models import Host, Clients
+from .forms import HostLogin, HostSignUp, ClientRegistration, Checkout
+from django.utils import timezone
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
 
+
+
+# Function based view for home page
 def home(request):
     return render(request, 'home.html', {})
 
 
+# Function based view for Host Registration
 def hostSignup(request):
     if request.method == "POST":
         form = HostSignUp(request.POST)
@@ -39,7 +45,7 @@ def hostSignup(request):
                 messages.success(request, 'Registration success')
                 return redirect(reverse('hostSignup'))
     else:
-        form = HostSignUp()
+        form = HostSignUp(None)
 
     context = {
         "form": form
@@ -48,6 +54,7 @@ def hostSignup(request):
     return render(request, 'auth/hostSignup.html', context)
 
 
+# Function based view for Host Login
 def hostLogin(request):
     if request.user.is_authenticated:
         return redirect(reverse('home'))
@@ -84,6 +91,7 @@ def hostCloseMeeting(request):
     return redirect(reverse('home'))
 
 
+# Function based view for Guest Registration
 @login_required(login_url='hostLogin')
 def clientRegister(request):
     if request.method == "POST":
@@ -93,34 +101,35 @@ def clientRegister(request):
             name = form.cleaned_data.get('name')
             phone = form.cleaned_data.get('phone')
             email = form.cleaned_data.get('email')
-            user=None
             altUser = Clients.objects.filter(email=email, phone=phone)
             print(altUser)
             if altUser.exists():
-                user=altUser
+                user = Clients.objects.get(name=altUser[0])
                 user.inMeeting = True
-                user.checkInTime=timezone.now()
-                user.checkOutTime=timezone.now()
+                user.checkInTime = timezone.now()
+                user.checkOutTime = timezone.now()
+                user.save()
             else:
                 user = Clients(name=name, phone=phone, email=email)
+                user.inMeeting=True
                 user.checkInTime = timezone.now()
                 user.checkOutTime = timezone.now()
                 user.save()
             print(name, phone, email, user)
-            print(user.checkInTime, user.inMeeting)
+            print(user.checkInTime, Clients.objects.get(name=user.name).inMeeting)
             if user is not None:
 
-                #Sending Email to Host
-                m = "Hey {host}, {guest} just checkin-in for the meeting. {guest}'s email  is {email} and phone number is {phoneNum}".format(
+                # # Sending Email to Host
+                m = "Hey {host}, {guest} just checked-in for the meeting. {guest}'s email  is {email} and phone number is {phoneNum}".format(
                     host=request.user.username,
                     guest=user.name,
                     email=user.email,
-                    phoneNum=phone
+                    phoneNum=user.phone
                 )
                 message = Mail(
                     from_email=os.environ.get('DEFAULT_FROM_EMAIL'),
                     to_emails=request.user.email,
-                    subject='Check=In meeting done',
+                    subject='Check-In from new Guest',
                     html_content=m)
 
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -128,7 +137,8 @@ def clientRegister(request):
                 print(response.status_code, response.body, response.headers)
                 print('Email send')
 
-                #SMS send to host
+
+                # SMS send to host
                 smsContext = {
                     "host": request.user.username,
                     "guestName": user.name,
@@ -153,14 +163,9 @@ def clientRegister(request):
                 except:
                     print('SMS send failed')
 
-                messages.success(request, 'Thanks for Checking-In')
+                messages.success(request, 'Thanks for Checking-In. Enjoy the meeting.')
                 print(user, user.checkInTime, user.checkOutTime)
                 return redirect(reverse('god:client'))
-
-        else:
-            messages.error(
-                request, 'Please try again')
-            return redirect(reverse('god:client'))
 
     else:
         form = ClientRegistration(None)
@@ -178,7 +183,6 @@ def ClientCheckout(request):
         form = Checkout(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
-
             email = form.cleaned_data.get('email')
             phone = form.cleaned_data.get('phone')
             user = Clients.objects.get(email=email, phone=phone)
@@ -205,8 +209,8 @@ def ClientCheckout(request):
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
                 print(response.status_code, response.body, response.headers)
-
                 return redirect(reverse('god:client'))
+
             else:
                 messages.error(request, 'Please enter details correctly')
                 return redirect(reverse('god:ClientCheckout'))
