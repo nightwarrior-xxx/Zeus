@@ -84,7 +84,7 @@ python3 manage.py runserver
 ## :beginner: Insights and Workflow
 
 Once the host registers, the host then next has to Login to start the meeting. On logging in the a Guest CheckIn page will be there, where number of guests can checkIn. Suppose the guest checkedIn and meeting is over, it needs to fill a checkOut again to checkout, just to make sure no fake Guest can checkout.
-At the Backend, once the Guest enters the information in the form, the backendb(**postgresql**) stores all of the information with time stamp of the entry. It also triggers an email(with help of **SendGrid**) and an SMS(with help of **Twilio**) to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This also triggers an email to the guest which contains details of host(name) and guest.
+At the Backend, once the Guest enters the information in the form, the backendb(**postgresql**) stores all of the information with time stamp of the entry. It also triggers an email(with help of **SendGrid**) and an SMS(with help of **Twilio**) to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This also triggers an email to the guest which contains details of host(name) and guest. The BackEnd also handles many things like when a user re-register and in future perspecitive I would also like add hosting meeting through tokenisation.
 
 
 ## :cherry_blossom: Community
@@ -153,6 +153,7 @@ Pictures of project.
   ![Email sent to host](assets/hostEmailSent.png)
 
 - SMS sent to Host
+
   ![SMS sent to host](assets/hostSMSSend.png)
 
 ## :star2: Credit/Acknowledgment
