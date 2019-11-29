@@ -15,7 +15,7 @@
   - [Contribution](#fire-contribution)
   - [Branches](#cactus-branches)
   - [Guideline](#exclamation-guideline)
-- [Insights](#beginner-insights)
+- [Insights and Workflow](#beginner-insights)
 - [Gallery](#camera-gallery)
 - [Credit/Acknowledgment](#star2-creditacknowledgment)
 - [License](#lock-license)
@@ -38,31 +38,54 @@ python3 manage.py runserver
 
 ### :notebook: Pre-Requisites and Development Enviroment
 
-Install a virtual environment
+- Install a virtual environment
 
 ```BASH
 python3 -m venv <name of virtual env>
 ```
 
-Activate the virtual environment
+- Activate the virtual environment
 
 ```BASH
 source <source folder>/<name of virtual env>/bin/activate
 ```
 
-Install requirements
+- Install requirements
 
 ```BASH
 pip install -r requirements.txt
 ```
 
-Move into the source folder i.e zeus and run
+- Create a DB and User
+```BASH
+sudo su - postgres
+psql
+```
+Now, we will create a DB for our App then a user which has privileges to access the DB
+```
+CREATE DATABASE myproject;
+CREATE USER myprojectuser WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+```
+
+- Now setup DB releated stuff in ```zeus/settings.py``` using environment variables.
+- Make an account on **SendGrid**  and setup API_KEY again in the setting of the app.
+- Create an account on **Twilio** as well. Generate a *Twilio Phone Number* and setup *AUTH_TOKEN*, *ACCOUNT_SID* and *PHONE NUMBER* in your app settings.
+
+
+- Move into the source folder i.e zeus and run
 
 ```BASH
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver
 ```
+
+## :beginner: Insights and Workflow
+
+Once the host registers, the host then next has to Login to start the meeting. On logging in the a Guest CheckIn page will be there, where number of guests can checkIn. Suppose the guest checkedIn and meeting is over, it needs to fill a checkOut again to checkout, just to make sure no fake Guest can checkout.
+At the Backend, once the Guest enters the information in the form, the backendb(**postgresql**) stores all of the information with time stamp of the entry. It also triggers an email(with help of **SendGrid**) and an SMS(with help of **Twilio**) to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This also triggers an email to the guest which contains details of host(name) and guest.
+
 
 ## :cherry_blossom: Community
 
@@ -103,9 +126,6 @@ After this, changes will be merged.
 
 Make sure that there is only one extra line after the file ends and remember the indentation.
 
-## :beginner: Insights
-
-At the back end, once the user enters the information in the form, the backendb(**postgresql**) stores all of the information with time stamp of the entry. It also triggers an email(with help of **SendGrid**) and an SMS(with help of **Twilio**) to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This should trigger an email to the guest which contains details of host(name) and guest.
 
 ## :camera: Gallery
 
