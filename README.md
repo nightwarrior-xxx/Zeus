@@ -146,6 +146,15 @@ Pictures of project.
 - Guest Checkout
   ![Guest checkout](assets/zeusClientCheckout.png)
 
+- Saved Guest Data
+  ![Guest Data Saved](assets/savedGuest.png)
+
+- Email Sent to Host
+  ![Email sent to host](assets/hostEmailSent.png)
+
+- SMS sent to Host
+  ![SMS sent to host](assets/hostSMSSend.png)
+
 ## :star2: Credit/Acknowledgment
 
 Credits goes to me and other contributors
