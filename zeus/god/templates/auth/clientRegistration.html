@@ -30,10 +30,10 @@
             </div>
         </div>
 
-        <div class="form-container"> 
+        <div class="guest-form-container"> 
             <form action="{% url 'god:client' %}" method="POST">
                     {% csrf_token %}
-                    <h1>We Welcome You</h1><br><br>
+                    <h1>Check-In</h1><br><br>
                     {% for field in form %}
                         <p>
                         <span class="subtitle">{{field.label_tag}}</span><br>

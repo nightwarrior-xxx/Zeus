@@ -116,3 +116,35 @@ body {
 .submit-btn:hover{
 	box-shadow: 2px 2px 2px #55acee;
 }
+
+.login-form-container {
+	width: 500px;
+	height: 600px;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 30px;
+	background-color: #1f1f1f;
+}
+
+.login-form-container h1{
+	color: white;
+}
+
+.guest-form-container {
+	width: 500px;
+	height: 550px;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 30px;
+	background-color: #1f1f1f;
+}
+
+.guest-form-container h1{
+	color: white;
+}
