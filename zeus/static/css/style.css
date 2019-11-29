@@ -148,3 +148,19 @@ body {
 .guest-form-container h1{
 	color: white;
 }
+
+.checkout-form-container {
+	width: 500px;
+	height: 600px;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 30px;
+	background-color: #1f1f1f;
+}
+
+.checkout-form-container h1{
+	color: white;
+}
