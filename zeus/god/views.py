@@ -38,8 +38,6 @@ def hostSignup(request):
             if user is not None:
                 messages.success(request, 'Registration success')
                 return redirect(reverse('hostSignup'))
-        else:
-            return redirect(reverse('hostSignup'))
     else:
         form = HostSignUp()
 
