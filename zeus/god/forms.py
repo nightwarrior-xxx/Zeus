@@ -24,24 +24,25 @@ class HostSignUp(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        user = User.objects.filter(email=email)
+        user = Host.objects.filter(email=email)
+        print('Email wrong')
         if user.exists():
-            return forms.ValidationError('Email already taken')
+            raise forms.ValidationError('Email already taken')
         return email
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         user = Host.objects.filter(phone=phone)
         if user.exists():
-            return forms.ValidationError('Phone number alredy exists')
-        return phone
+            raise forms.ValidationError('Phone number alredy exists')
+        return  email
 
     def clean(self):
         data = self.cleaned_data
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
         if password1 != password2:
-            return forms.ValidationError('Password not match')
+            raise forms.ValidationError('Password not match')
         return data
 
 

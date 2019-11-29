@@ -39,9 +39,9 @@ def hostSignup(request):
                 messages.success(request, 'Registration success')
                 return redirect(reverse('hostSignup'))
         else:
-            messages.error(request, 'Please register again')
+            return redirect(reverse('hostSignup'))
     else:
-        form = HostSignUp(None)
+        form = HostSignUp()
 
     context = {
         "form": form
