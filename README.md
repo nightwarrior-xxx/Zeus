@@ -131,32 +131,40 @@ Make sure that there is only one extra line after the file ends and remember the
 
 Pictures of project.
 
-- Font Page
+#### Front Page
+
   ![Font Page](assets/zeusFrontPage.png)
 
-- Host Registration Page
+#### Host Registration Page
+
   ![Host Register](assets/zeusHostRegister.png)
 
-- Host Login Page
+#### Host Login Page
+
   ![Host Login](assets/zeusHostLogin.png)
 
-- Guest Check In
+#### Guest Check In
+
   ![Guest](assets/zeusClientRegister.png)
 
-- Guest Checkout
+#### Guest Checkout
+
   ![Guest checkout](assets/zeusClientCheckout.png)
 
-- Saved Guest Data
+#### Saved Guest Data
+
   ![Guest Data Saved](assets/savedGuest.png)
 
-- Email Sent to Host
+#### Email Sent to Host
+
   ![Email sent to host](assets/hostEmailSent.png)
 
-- SMS sent to Host
+#### SMS sent to Host
 
   ![SMS sent to host](assets/hostSmsSend.jpg)
 
-- Email sent to Guest
+#### Email sent to Guest
+
    ![Email sent to host](assets/guestEmail.png)
 
 ## :star2: Credit/Acknowledgment
