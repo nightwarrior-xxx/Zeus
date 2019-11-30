@@ -154,7 +154,10 @@ Pictures of project.
 
 - SMS sent to Host
 
-  ![SMS sent to host](assets/hostSMSSend.png)
+  ![SMS sent to host](assets/hostSmsSend.jpg)
+
+- Email sent to Guest
+   ![Email sent to host](assets/guestEmail.png)
 
 ## :star2: Credit/Acknowledgment
 
