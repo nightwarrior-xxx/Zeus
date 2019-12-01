@@ -2,3 +2,4 @@ venv/
 __pycache__/
 cred.sh
 .vscode/
+static_root/
