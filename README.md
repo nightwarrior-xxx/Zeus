@@ -87,7 +87,7 @@ Once the host registers, the host then next has to Login to start the meeting. O
 At the Backend, once the Guest enters the information in the form, the backendb(**postgresql**) stores all of the information with time stamp of the entry. It also triggers an email(with help of **SendGrid**) and an SMS(with help of **Twilio**) to the host informing him of the details of the visitor. Also, it has a provision automatic checkout time. This also triggers an email to the guest which contains details of host(name) and guest. The BackEnd also handles many things like when a user re-register and in future perspecitive I would also like add hosting meeting through tokenisation.
 
 ### SummerGeek
-This projects is for (SummerGeek2020)[https://summergeeks.in/] challenge.
+This projects is for [SummerGeek2020](https://summergeeks.in/) challenge.
 
 ## :cherry_blossom: Community
 
