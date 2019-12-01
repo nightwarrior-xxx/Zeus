@@ -49,6 +49,12 @@ python3 -m venv <name of virtual env>
 ```BASH
 source <source folder>/<name of virtual env>/bin/activate
 ```
+- Clone the project and move into the project folder
+
+```BASH
+git clone https://github.com/nightwarrior-xxx/Zeus.git
+cd Zeus
+```
 
 - Install requirements
 
@@ -68,7 +74,7 @@ CREATE USER myprojectuser WITH PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
 ```
 
-- Now setup DB releated stuff in ```zeus/settings.py``` using environment variables.
+- Now setup DB releated stuff i.e host, name, db_name and password in ```zeus/settings.py``` using environment variables.
 - Make an account on **SendGrid**  and setup API_KEY again in the setting of the app.
 - Create an account on **Twilio** as well. Generate a *Twilio Phone Number* and setup *AUTH_TOKEN*, *ACCOUNT_SID* and *PHONE NUMBER* in your app settings.
 
